@@ -1,17 +1,13 @@
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 import TextField from "@mui/material/TextField";
-import Button from '@mui/material/Button';
-import { useState, useEffect } from 'react'
+import Card from "../../components/card/card";
 import "./styles.scss";
-import imageEye from '../../assets/password-eye.png'
+
+
 export function Login() {
-    const [ visiblePassword, setvisiblePassword ] = useState<boolean>(false);
-    const [ password, setPassword ] = useState<string>('');
-
-    function ChangevisiblePassword () {
-        setvisiblePassword(!visiblePassword);
-    }
-
-
   return (
     <section className="login__form">
       <form action="post" className="login__action">
@@ -25,19 +21,25 @@ export function Login() {
         <TextField
           className="input"
           required
-          type={visiblePassword ? 'text' : 'password'}
+          type="password"
           id="outlined-required"
           label="senha"
           placeholder="senha"
         />
-        <img src={imageEye} onClick={ ChangevisiblePassword } className="login__eye" width="20px" height="20px" /> 
+        <div className="login__password">
+          <FormGroup>
+            <FormControlLabel control={<Checkbox />} label="Salvar senha" />
+          </FormGroup>
+          <span>Esqueceu sua senha?</span>
+        </div>
         <div className="login__button">
-            <Button variant="outlined">Entrar</Button>
+          <Button variant="outlined">Entrar</Button>
+          <Button variant="outlined">Cadastre-se</Button>
         </div>
       </form>
-      
-
+      <div className="login__line"></div>
     </section>
+    
   );
 }
 export default Login;
