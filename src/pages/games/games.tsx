@@ -1,12 +1,6 @@
 import TextField from "@mui/material/TextField";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-import { FilledInput, FormControl, InputAdornment, InputLabel, Link, Pagination } from "@mui/material";
-import "./styles.scss";
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { Pagination } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -14,7 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Theme } from "../../assets/palette/theme";
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
@@ -24,6 +17,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import { Stack } from "@mui/system";
+import "./styles.scss";
 /*
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,16 +43,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function createData(
   imagemJogo: string,
   nameJogo: string,
+  qntAnunciantes: number,
 ) {
-  return { imagemJogo, nameJogo};
+  return { imagemJogo, nameJogo, qntAnunciantes};
 }
 
 const rows = [
-  createData('ImagemJogo1','Nome Jogo 1'),
-  createData('ImagemJogo2','Nome Jogo 2'),
-  createData('ImagemJogo3','Nome Jogo 3'),
-  createData('ImagemJogo4','Nome Jogo 4'),
-  createData('ImagemJogo5','Nome Jogo 5'),
+  createData('ImagemJogo1','Nome Jogo 1', 5),
+  createData('ImagemJogo2','Nome Jogo 2', 3),
+  createData('ImagemJogo3','Nome Jogo 3', 2),
+  createData('ImagemJogo4','Nome Jogo 4', 4),
+  createData('ImagemJogo5','Nome Jogo 5', 1),
 ];
 
 const actions = [
@@ -85,7 +80,7 @@ export  function Games() {
                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
                         <TableHead>
                             <TableRow className="games__tableRow">
-                                <TableCell Style="font-size:20px;font-weight:600;" colspan="2" >Lista de Jogos Disponíveis</TableCell>
+                                <TableCell Style="font-size:20px;font-weight:600;" colspan="3" >Lista de Jogos Disponíveis</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -95,6 +90,7 @@ export  function Games() {
                                         {row.imagemJogo}
                                     </TableCell>
                                     <TableCell align="left">{row.nameJogo}</TableCell>
+                                    <TableCell align="left">{row.qntAnunciantes} Anuncios</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

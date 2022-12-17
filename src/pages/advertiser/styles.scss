@@ -1,4 +1,4 @@
-.games {
+.advertiser {
 
     &__form {
         background-color: #001524;
@@ -23,13 +23,15 @@
         position: relative;
     }
 
-    &__input {
-        margin: 5px;
+    &__line_horizontal{
+        display: flex;
+        margin-top: 5px;
         width: 100%;
+        border: 1px solid #57cc99;
     }
 
     &__button {
-        margin-top: 10px;
+        margin-top: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -59,16 +61,11 @@
         align-items: right;
         justify-content: right;
     }
-    
-    &__::ng-deeptabCell {
-        font-size: 18;
-        font-weight: 600;
-    }
 
     &__line {
         margin-top: 15px;
         width: 50%;
-        height: 1px;
+        height: px;
         background-color: black;
     }
 
@@ -87,7 +84,7 @@
 }
 
 @media screen and (max-width: 990px ) {
-    .games { 
+    .advertiser { 
 
         &__createAccount {
             flex-direction: column;
