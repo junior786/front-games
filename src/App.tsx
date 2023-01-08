@@ -22,7 +22,6 @@ function App() {
         <Route path="/login" element={ <Login/> }></Route>
         <Route path="/recover" element={ <Recover/> }></Route>
         <Route path="/shift" element={ <Shift/> }></Route>
-        
       </Routes>
     </BrowserRouter>
     </ThemeProvider>

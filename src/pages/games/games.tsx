@@ -1,44 +1,19 @@
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { Pagination } from "@mui/material";
+import Button from "@mui/material/Button";
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
+import TextField from "@mui/material/TextField";
 import { Stack } from "@mui/system";
+import { useEffect, useState } from "react";
+import CadasterGameDialog from "../../components/cadasterGame/cadasterGame";
+import { GameRequest } from "../../model/game.request";
+import { gameService } from "../../service/game.service";
 import "./styles.scss";
-/*
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-*/
 
 function createData(
   imagemJogo: string,
@@ -56,71 +31,78 @@ const rows = [
   createData('ImagemJogo5','Nome Jogo 5', 1),
 ];
 
-const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
-];
+export function Games() {
+  const [games, setGames] = useState<GameRequest[]>([]);
+  const [recovery, setRecovery] = useState<GameRequest[]>();
+  const [open, setOpen] = useState<boolean>(false);
 
+  const doFilter = (value: string) => {
+    if (value === '' && recovery) {
+      setGames(recovery);
+    } else {
+      const filtered = games?.filter(name => name.nomeGame.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
+      setGames(filtered);
+    }
+  }
 
-export  function Games() {
+  const handleOpen = () => {
+    setOpen(true);
+  } 
+
+  useEffect(() => {
+    gameService().then(data =>  {
+      setGames(data!.data);
+      setRecovery(data!.data);
+    });
+  }, [])
+
     return (
         <section className="games__form">
+          { open ? <CadasterGameDialog status={ open } /> : null }
+          
             <form action="post" className="games__action">
                 <TextField
                     className="input"
                     id="standard-search"
                     variant="standard"
                     label="Pesquisar jogo"
+                    onChange={e => doFilter(e.target.value)}
                     //placeholder="Pesquisar jogo"
                 />
-                <div className="games__table">
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                        <TableHead>
-                            <TableRow className="games__tableRow">
-                                <TableCell Style="font-size:20px;font-weight:600;" colspan="3" >Lista de Jogos Disponíveis</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.imagemJogo}>
-                                    <TableCell component="th" scope="row">
-                                        {row.imagemJogo}
-                                    </TableCell>
-                                    <TableCell align="left">{row.nameJogo}</TableCell>
-                                    <TableCell align="left">{row.qntAnunciantes} Anuncios</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                </div>
+             
+                { 
+                  ( games!.length > 0 ? <div className="games__table">
+                  <TableContainer component={Paper}>
+                      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                          <TableHead>
+                              <TableRow className="games__tableRow">
+                                  <TableCell colSpan="3" >Lista de Jogos Disponíveis</TableCell>
+                              </TableRow>
+                          </TableHead>
+                          <TableBody>
+                              {games?.map((row) => (
+                                  <TableRow key={row.idGame}>
+                                      <TableCell component="th" scope="row">
+                                          <img height="192" width="144" src={row.image} alt="Imagem" />
+                                      </TableCell>
+                                      <TableCell align="left">{row.nomeGame}</TableCell>
+                                      <TableCell align="left">{row.anuncios.length} Anuncios</TableCell>
+                                  </TableRow>
+                              ))}
+                          </TableBody>
+                      </Table>
+                  </TableContainer>
+                  </div>
+                  : <span>Nada encontrado :( </span>
+                  )
+                } 
                 <div className="games__paginacao">
                   <Stack spacing={2} >
                     <Pagination count={10} color="primary" />
                   </Stack>
                 </div>
                 <div className="games__button">
-                    <Button variant="outlined">Novo Jogo</Button>
-                </div>
-                <div>
-                  <Box sx={{ height: 110, transform: 'translateZ(0px)', flexGrow: 1 }}>
-                    <SpeedDial
-                      ariaLabel="SpeedDial basic example"
-                      sx={{ position: 'absolute', bottom: 16, right: 16 }}
-                      icon={<SpeedDialIcon />}
-                      >
-                      {actions.map((action) => (
-                        <SpeedDialAction
-                          key={action.name}
-                          icon={action.icon}
-                          tooltipTitle={action.name}
-                        />
-                      ))}
-                    </SpeedDial>
-                  </Box>
+                    <Button variant="outlined" onClick={handleOpen}>Novo Jogo</Button>
                 </div>
             </form>
             <div className="games__line"></div>
