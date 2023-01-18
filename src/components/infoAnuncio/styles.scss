@@ -1,0 +1,22 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.form-inputs-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+        background-color: #57cc99;
+        border-radius: 8px;
+        margin-bottom: 5px;
+    }
+    span {
+        background-color: #57cc99;
+        opacity: 0.5;
+    }
+}

@@ -1,5 +1,6 @@
 export interface Anuncio {
     player: string,
+    idDiscord: string,
     diasSemanas: Week[]
 }
 
