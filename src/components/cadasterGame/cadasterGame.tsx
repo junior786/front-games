@@ -1,31 +1,24 @@
 import {
-    Button,
+  Button,
   Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Slide,
-  TextField,
+  DialogActions, DialogTitle, TextField
 } from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
-import React from "react";
+import { useState } from "react";
+import { postGameService } from "../../service/game.service";
 import "./styles.scss";
 
 interface CadasterGameProps {
   status: boolean;
+  event: any;
 }
-export function CadasterGameDialog({ status }: CadasterGameProps) {
-  console.log("component", status);
+export function CadasterGameDialog({ status, event }: CadasterGameProps ) {
+  const [game, setGame] = useState<{nomeGame?: string, image?: string}>({ image: '', nomeGame: ''});
 
-  const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-      children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>
-  ) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+
+  function saveGame() {    
+    if (game) postGameService(game).then(() => event);
+    window.location.reload();
+  }
 
   return (
     <div>
@@ -42,6 +35,7 @@ export function CadasterGameDialog({ status }: CadasterGameProps) {
             autoComplete="off"
             className="input"
             required
+            onChange={ event => setGame({image: game?.image, nomeGame: event.target.value})}
             id="outlined-required"
             label="Nome do jogo"
             placeholder="The sims 5"
@@ -50,14 +44,15 @@ export function CadasterGameDialog({ status }: CadasterGameProps) {
             autoComplete="off"
             className="input"
             required
+            onChange={event => setGame({image: event.target.value, nomeGame: game?.nomeGame})}
             id="outlined-required"
             label="Link da imagem"
             placeholder="http://google.images.com"
           />
         </form>
         <DialogActions>
-          <Button>Cancelar</Button>
-          <Button autoFocus>
+          <Button onClick={event}>Cancelar</Button>
+          <Button onClick={saveGame} autoFocus>
             Cadastrar
           </Button>
         </DialogActions>

@@ -11,7 +11,6 @@ import Cookies from 'universal-cookie';
 
 
 export function Login() {
-  console.log('atyetse');
   const [login, setLogin] = useState<LoginRequest>();
  
   useEffect(() => {
@@ -73,7 +72,7 @@ export function Login() {
         </div>
         <div className="login__button">
           <Button variant="outlined" disabled={(!login?.password || !login?.login)} onClick={submit}>Entrar</Button>
-          <Button variant="outlined">Cadastre-se</Button>
+          <Button type="submit" variant="outlined">Cadastre-se</Button>
         </div>
       </form>
       <div className="login__line"></div>

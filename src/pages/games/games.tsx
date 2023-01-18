@@ -49,6 +49,14 @@ export function Games() {
     setOpen(true);
   } 
 
+  const handleOff = () => {    
+    setOpen(false);
+  }
+
+  const redirectGame = (id: number) => {
+    window.location.href = `/gamesDetails/${id}`
+  }
+
   useEffect(() => {
     gameService().then(data =>  {
       setGames(data!.data);
@@ -58,8 +66,7 @@ export function Games() {
 
     return (
         <section className="games__form">
-          { open ? <CadasterGameDialog status={ open } /> : null }
-          
+          { open ? <CadasterGameDialog status={ open } event={handleOff} /> : null }
             <form action="post" className="games__action">
                 <TextField
                     className="input"
@@ -69,7 +76,6 @@ export function Games() {
                     onChange={e => doFilter(e.target.value)}
                     //placeholder="Pesquisar jogo"
                 />
-             
                 { 
                   ( games!.length > 0 ? <div className="games__table">
                   <TableContainer component={Paper}>
@@ -80,8 +86,8 @@ export function Games() {
                               </TableRow>
                           </TableHead>
                           <TableBody>
-                              {games?.map((row) => (
-                                  <TableRow key={row.idGame}>
+                              {games?.map((row: GameRequest) => (
+                                  <TableRow key={row.idGame} className="games__card" onClick={() => redirectGame(row.idGame)}>
                                       <TableCell component="th" scope="row">
                                           <img height="192" width="144" src={row.image} alt="Imagem" />
                                       </TableCell>

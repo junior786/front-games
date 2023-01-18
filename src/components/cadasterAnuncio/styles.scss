@@ -1,0 +1,15 @@
+.form-inputs {
+    display: flex;
+    margin: 10px;
+    flex-direction: row;
+    align-content: space-around;
+    justify-content: center;
+    width: 250px;
+    gap: 5px;
+}
+.cadaster {
+    cursor: pointer;
+}
+.cadaster:hover {
+    background-color: #f1f1f1;
+}

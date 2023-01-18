@@ -9,6 +9,7 @@ import Recover from "./pages/recover/recover";
 import Shift from "./pages/shift/shift";
 import { Theme } from './assets/palette/theme';
 import { ThemeProvider } from "@emotion/react";
+import GameDetails from "./pages/gameDetails/gameDetails";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/advertiser" element={ <Advertiser/> }></Route>
         <Route path="/cadaster" element={ <Cadaster/> }></Route>
         <Route path="/games" element={ <Games/> }></Route>
+        <Route path="/gamesDetails/:id" element={ <GameDetails/> }></Route>
         <Route path="/login" element={ <Login/> }></Route>
         <Route path="/recover" element={ <Recover/> }></Route>
         <Route path="/shift" element={ <Shift/> }></Route>
